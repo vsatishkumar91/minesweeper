@@ -23,3 +23,13 @@
 .visited.bomb {
   background-color: red;;
 }
+
+.flag {
+  background-image: url('images/flag.png');
+  background-size: 100% 100%;
+}
+
+.bomb.blast {
+  background-image: url('images/bomb.jpg');
+  background-size: 100% 100%;
+}

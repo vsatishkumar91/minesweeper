@@ -161,7 +161,7 @@ document.addEventListener("DOMContentLoaded", () => {
     isGameOver = true;
     squares.forEach((item) => {
       if (item.classList.contains("bomb")) {
-        item.innerHTML = "B";
+        item.classList.add('blast');
       }
     });
   }
@@ -176,7 +176,6 @@ document.addEventListener("DOMContentLoaded", () => {
       } else {
         if (flagsCount <= bombsCount) {
           flagsCount++;
-          square.innerHTML = "F";
           square.classList.add("flag");
         } 
         if(flagsCount == bombsCount) {
