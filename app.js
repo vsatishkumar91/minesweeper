@@ -71,7 +71,6 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!isBottomEdge && squares[i + width].classList.contains("bomb"))
           totalBomb++;
 
-        squares[i].innerHTML = totalBomb;
         squares[i].setAttribute("totalBombs", totalBomb);
       }
     }
@@ -84,12 +83,74 @@ document.addEventListener("DOMContentLoaded", () => {
       alert("Game Over");
       isGameOver = true;
     } else {
-      const bombsCount = parseInt(square.getAttribute(totalBombs));
+      const bombsCount = parseInt(square.getAttribute("totalBombs"));
 
       if (bombsCount) {
         square.classList.add("visited");
+        square.innerHTML = bombsCount;
+        return;
       }
+      checkSquare(square);
     }
+    square.classList.add("visited");
+  }
+
+  function checkSquare(square) {
+    const id = parseInt(square.id);
+    const isLeftEdge = id % width == 0;
+    const isRightEdge = id % width == width - 1;
+    const isTopEdge = id < width;
+    const isBottomEdge = Math.floor(id / width) == width - 1;
+
+    setTimeout(() => {
+      if (!isTopEdge && !isLeftEdge) {
+        const newId = squares[id - width - 1].id;
+        const newSquare = document.getElementById(newId);
+        revealClue(newSquare);
+      }
+
+      if (!isTopEdge && !isRightEdge) {
+        const newId = squares[id - width + 1].id;
+        const newSquare = document.getElementById(newId);
+        revealClue(newSquare);
+      }
+
+      if (!isLeftEdge) {
+        const newId = squares[id - 1].id;
+        const newSquare = document.getElementById(newId);
+        revealClue(newSquare);
+      }
+
+      if (!isRightEdge) {
+        const newId = squares[id + 1].id;
+        const newSquare = document.getElementById(newId);
+        revealClue(newSquare);
+      }
+
+      if (!isBottomEdge && !isLeftEdge) {
+        const newId = squares[id + width - 1].id;
+        const newSquare = document.getElementById(newId);
+        revealClue(newSquare);
+      }
+
+      if (!isBottomEdge && !isRightEdge) {
+        const newId = squares[id + width + 1].id;
+        const newSquare = document.getElementById(newId);
+        revealClue(newSquare);
+      }
+
+      if (!isTopEdge) {
+        const newId = squares[id - width].id;
+        const newSquare = document.getElementById(newId);
+        revealClue(newSquare);
+      }
+
+      if (!isBottomEdge) {
+        const newId = squares[id + width].id;
+        const newSquare = document.getElementById(newId);
+        revealClue(newSquare);
+      }
+    }, 10);
   }
 
   function init() {

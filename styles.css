@@ -18,3 +18,7 @@
 .bomb {
   background-color: #ffdddd;
 }
+
+.visited {
+  background-color: grey;
+}
