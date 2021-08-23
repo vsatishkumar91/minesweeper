@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let squares = [];
   let isGameOver = false;
+  let flagsCount = 0;
 
   function createBoard() {
     const bombsList = Array(bombsCount).fill("bomb");
@@ -23,6 +24,10 @@ document.addEventListener("DOMContentLoaded", () => {
         square.addEventListener("click", function (e) {
           revealClue(square);
         });
+        square.addEventListener('contextmenu', function(e) {
+          e.preventDefault();
+          toggleFlag(square);
+        })
       }
     }
     fillCluesCount();
@@ -161,7 +166,25 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  
+  function toggleFlag(square) {
+    if (isGameOver) return;
+    if (!square.classList.contains("visited")) {
+      if (square.classList.contains("flag")) {
+        flagsCount--;
+        square.innerHTML = "";
+        square.classList.remove("flag");
+      } else {
+        if (flagsCount < bombsCount) {
+          flagsCount++;
+          square.innerHTML = "F";
+          square.classList.add("flag");
+        } else {
+          alert("please remove few bombs to set this");
+        }
+      }
+    }
+  }
+
   function init() {
     createBoard();
   }
