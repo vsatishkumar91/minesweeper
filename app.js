@@ -80,8 +80,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (isGameOver) return;
     if (square.classList.contains("visited")) return;
     if (square.classList.contains("bomb")) {
-      alert("Game Over");
-      isGameOver = true;
+      gameOver(square);
     } else {
       const bombsCount = parseInt(square.getAttribute("totalBombs"));
 
@@ -153,6 +152,16 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 10);
   }
 
+  function gameOver(square) {
+    isGameOver = true;
+    squares.forEach((item) => {
+      if (item.classList.contains("bomb")) {
+        item.innerHTML = "B";
+      }
+    });
+  }
+
+  
   function init() {
     createBoard();
   }

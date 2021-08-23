@@ -22,3 +22,7 @@
 .visited {
   background-color: grey;
 }
+
+.visited.bomb {
+  background-color: red;;
+}
