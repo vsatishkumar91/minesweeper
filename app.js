@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const grid = document.querySelector(".grid");
 
   const width = 10;
-  const bombsCount = 2 * width;
+  const bombsCount = 5;
 
   let squares = [];
   let isGameOver = false;
@@ -24,10 +24,10 @@ document.addEventListener("DOMContentLoaded", () => {
         square.addEventListener("click", function (e) {
           revealClue(square);
         });
-        square.addEventListener('contextmenu', function(e) {
+        square.addEventListener("contextmenu", function (e) {
           e.preventDefault();
           toggleFlag(square);
-        })
+        });
       }
     }
     fillCluesCount();
@@ -174,14 +174,33 @@ document.addEventListener("DOMContentLoaded", () => {
         square.innerHTML = "";
         square.classList.remove("flag");
       } else {
-        if (flagsCount < bombsCount) {
+        if (flagsCount <= bombsCount) {
           flagsCount++;
           square.innerHTML = "F";
           square.classList.add("flag");
-        } else {
-          alert("please remove few bombs to set this");
+        } 
+        if(flagsCount == bombsCount) {
+          checAllBombsCaptured(square);
         }
       }
+    }
+  }
+
+  function checAllBombsCaptured(square) {
+    let allBombsCaptured = true;
+    isGameOver = true;
+    for (let i = 0; i < width * width; i++) {
+      if (squares[i].classList.contains("bomb")) {
+        allBombsCaptured = squares[i].classList.contains("flag");
+        if (!allBombsCaptured) {
+          break;
+        }
+      }
+    }
+    if(allBombsCaptured) {
+      alert('you won the game');
+    } else {
+      gameOver(square);
     }
   }
 
