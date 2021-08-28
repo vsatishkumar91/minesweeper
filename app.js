@@ -1,12 +1,17 @@
 document.addEventListener("DOMContentLoaded", () => {
   const grid = document.querySelector(".grid");
+  const flagsLeft = document.querySelector('#flags-left');
+  const timeCompleted = document.querySelector('#time-completed');
+  const result = document.querySelector('#result')
 
   const width = 10;
-  const bombsCount = 5;
+  const bombsCount = 20;
 
   let squares = [];
   let isGameOver = false;
   let flagsCount = 0;
+  let time = 0;
+  let timeInterval;
 
   function createBoard() {
     const bombsList = Array(bombsCount).fill("bomb");
@@ -91,6 +96,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (bombsCount) {
         square.classList.add("visited");
+        if (bombsCount == 1) square.classList.add('one')
+        if (bombsCount == 2) square.classList.add('two')
+        if (bombsCount == 3) square.classList.add('three')
+        if (bombsCount == 4) square.classList.add('four')
         square.innerHTML = bombsCount;
         return;
       }
@@ -164,6 +173,8 @@ document.addEventListener("DOMContentLoaded", () => {
         item.classList.add('blast');
       }
     });
+    result.innerHTML = "You loose the game. Better luck next time!";
+    clearInterval(timeInterval);
   }
 
   function toggleFlag(square) {
@@ -182,6 +193,7 @@ document.addEventListener("DOMContentLoaded", () => {
           checAllBombsCaptured(square);
         }
       }
+      flagsLeft.innerHTML = bombsCount- flagsCount;
     }
   }
 
@@ -197,14 +209,21 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
     if(allBombsCaptured) {
-      alert('you won the game');
+      result.innerHTML = "Congratulations, You won the game!";
     } else {
       gameOver(square);
     }
+    clearInterval(timeInterval);
   }
 
   function init() {
     createBoard();
+    flagsLeft.innerHTML = bombsCount;
+    timeCompleted.innerHTML = time;
+    timeInterval = setInterval(() => {
+      time++;
+      timeCompleted.innerHTML = time;
+    }, 1000);
   }
 
   init();
